@@ -6,9 +6,10 @@ import java.net.Socket;
 
 public class Main {
     private static final int SRV_PORT = 8989;
+    private static final String DIR_PDF="pdfs";
 
     public static void main(String[] args) throws Exception {
-        BooleanSearchEngine engine = new BooleanSearchEngine(new File("pdfs"));
+        BooleanSearchEngine engine = new BooleanSearchEngine(new File(DIR_PDF));
 
         try (ServerSocket serverSocket = new ServerSocket(SRV_PORT);) {
             System.out.println("Сервер работает на порту " + SRV_PORT);
@@ -19,8 +20,8 @@ public class Main {
                         PrintWriter out = new PrintWriter(socket.getOutputStream());
                 ) {
 
-                    String request = in.readLine();
-                    String response = getGson(engine, request);
+                    String word = in.readLine();
+                    String response = getGson(engine, word);
                     out.write(response);
                     System.out.println(response);
                 }
@@ -31,10 +32,10 @@ public class Main {
         }
     }
 
-    private static String getGson(BooleanSearchEngine engine, String request) {
-        System.out.printf("Запрос клиента: %s\n", request);
+    private static String getGson(BooleanSearchEngine engine, String word) {
+        System.out.printf("Запрос клиента: %s\n", word);
         var gson = new GsonBuilder().setPrettyPrinting().create();
-        var checkSearch = engine.search(request) != null ? engine.search(request) : "Слово не найдено";
+        var checkSearch = engine.search(word) != null ? engine.search(word) : "Слово не найдено";
         var response = gson.toJson(checkSearch);
         return response;
     }
