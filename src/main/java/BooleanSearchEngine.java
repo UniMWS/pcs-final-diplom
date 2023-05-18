@@ -33,7 +33,7 @@ public class BooleanSearchEngine implements SearchEngine {
                     if (indexedPageEntry.containsKey(word)) {
                         indexedPageEntry.get(word).add(pageEntry);
                     } else {
-                        List<PageEntry> pageEntryList = new LinkedList<>();
+                        List<PageEntry> pageEntryList = new ArrayList<>();
                         pageEntryList.add(pageEntry);
                         indexedPageEntry.put(word, pageEntryList);
                     }
