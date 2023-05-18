@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class Main {
     private static final int SRV_PORT = 8989;
-    private static final String DIR_PDF="pdfs";
+    private static final String DIR_PDF = "pdfs";
 
     public static void main(String[] args) throws Exception {
         BooleanSearchEngine engine = new BooleanSearchEngine(new File(DIR_PDF));
@@ -35,8 +35,8 @@ public class Main {
     private static String getGson(BooleanSearchEngine engine, String word) {
         System.out.printf("Запрос клиента: %s\n", word);
         var gson = new GsonBuilder().setPrettyPrinting().create();
-        var checkSearch = engine.search(word) != null ? engine.search(word) : "Слово не найдено";
-        var response = gson.toJson(checkSearch);
+        var checkSearch = engine.search(word);
+        var response = gson.toJson(checkSearch.isEmpty() ? "Слово не найдено" : checkSearch);
         return response;
     }
 }
